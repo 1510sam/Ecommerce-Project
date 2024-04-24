@@ -1,0 +1,72 @@
+<%- include('layout/header')%>
+<div class="row admin_content position-absolute d-flex">
+    <h3>User</h3>
+    <div class="row ">
+        <%if(role == 'admin') { %>
+        <% if(data) { %>
+        <table class="table table-striped ">
+            <thead class="table table-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach((row,index)=>{ %>
+                <tr>
+                    <th scope="row"><%= index %></th>
+                    <td><%= row.name %></td>
+                    <td><%= row.email %></td>
+                    <td><%= row.phoneNumber %></td>
+                    <td><%= row.role %></td>
+                    <td>
+                        <% if(role == "staff" || role == "user") { %>
+                        <a href="#"
+                            onclick="alert('Banh phải có quyền admin thì mới có thể sửa người dùng ')"
+                            class="text-success">
+                            <i class="fas fa-edit fa-lg mx-1"></i>
+                        </a>
+                        <%}else { %>
+                        <a href="/update/<%= row._id %>" class="text-success">
+                            <i class="fas fa-edit fa-lg mx-1"></i>
+                        </a>
+                        <%}%>
+
+                        <% if(role == "staff" || role == "user") { %>
+                        <a href
+                            onclick="alert('Bạn khôn có quyền xóa người dùng ')"
+                            class="text-danger">
+                            <i class="fas fa-trash fa-lg mx-1"></i>
+                        </a>
+                        <%}else {%>
+                        <a href="/delete/<%= row._id%>" class="text-danger">
+                            <i class="fas fa-trash fa-lg mx-1"></i>
+                        </a>
+                        <%}%>
+
+                    </td>
+                </tr>
+
+                <% }) %>
+            </tbody>
+        </table>
+
+        <% if(role == "admin") { %>
+        <a href="/register" class="btn btn-success col-5">Thêm một người
+            dùng</a>
+        <%}%>
+
+        <% } else { %>
+        <h1>NO DATA</h1>
+        <% } %>
+        <%}else { %>
+        <h4>Bạn không có quyền xem thông tin của người dùng</h4>
+        <%}%>
+    </div>
+
+</div>
+<%- include('layout/footer')%>
